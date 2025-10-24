@@ -3,6 +3,8 @@
 import os.path
 import datetime as dt
 from django.utils import timezone
+import os
+import json
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -30,23 +32,38 @@ class GoogleCalendarManager:
     def _authenticate(self, credentials_path, token_path):
         """
         Autentica con la API de Google Calendar usando OAuth 2.0.
-
-        Returns:
-            El servicio de la API de Google Calendar autenticado.
+        Detecta si es Vercel (Producción) para usar variables de entorno.
         """
         creds = None
-        if os.path.exists(token_path):
+        IS_PROD = os.getenv('VERCEL') == '1'
+
+        if IS_PROD:
+            token_json_string = os.getenv('GOOGLE_TOKEN_JSON')
+            if token_json_string:
+                token_info = json.loads(token_json_string)
+                creds = Credentials.from_authorized_user_info(token_info, SCOPES)
+
+        elif os.path.exists(token_path):
             creds = Credentials.from_authorized_user_file(token_path, SCOPES)
 
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(credentials_path, SCOPES)
-                creds = flow.run_local_server(port=0)
+                if IS_PROD:
+                    raise Exception(
+                        "Autenticación fallida en Vercel. El token guardado es inválido o no existe. "
+                        "Actualiza la variable GOOGLE_TOKEN_JSON con un nuevo token generado localmente."
+                    )
+                else:
+                    flow = InstalledAppFlow.from_client_secrets_file(credentials_path, SCOPES)
+                    creds = flow.run_local_server(port=0)
 
-            with open(token_path, "w") as token:
-                token.write(creds.to_json())
+                    with open(token_path, "w") as token:
+                        token.write(creds.to_json())
+
+        if not creds or not creds.valid:
+             raise Exception("Fallo la autenticación de Google Calendar. Verifica credenciales/token.")
 
         return build("calendar", "v3", credentials=creds)
 

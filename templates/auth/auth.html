@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% load static %}
+{% block title %}
+Autenticación de Usuario
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth/auth.css' %}">
+{% endblock %}
+
+{% block enlace_logo %}
+<a href='/'>
+{% endblock %}
+
+{% block enlace_logo_mobile %}
+<a href='/'>
+{% endblock %}
+
+{% block extra_navbar %}
+  <a href="/" class="btn btn-outline-light volver-btn">Volver atrás</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="error-container">
+    {% if form.non_field_errors %}
+        <div class="form-errors">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    {% for field in form %}
+        {% if field.errors %}
+            <div class="form-errors">
+                {{ field.errors }}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="container" id="container">
+  <div class="form-container sign-up">
+    <form action="" method="post">
+      {% csrf_token%}
+      <h1>Regístrate</h1>
+      <span>Ingrese sus datos para poder continuar:</span>
+      <div>
+        <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+      </div>
+      <div>
+        <input type="text" id="first_name" name="first_name" placeholder="Nombre" required>
+      </div>
+      <div>
+        <input type="text" id="last_name" name="last_name" placeholder="Apellido" required>
+      </div>
+      <div>
+        <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+      </div>
+      <div>
+        <input type="password" id="password1" name="password1" placeholder="Contraseña" required>
+      </div>
+      <div>
+        <input type="password" id="password2" name="password2" placeholder="Confirmar Contraseña" required>
+      </div>
+      <div>
+        <button class="btn-register" type="submit" name="register_submit">Registrarse</button>
+      </div>
+    </form>
+  </div>
+  <div class="form-container sign-in">
+    <form method="post">
+      {% csrf_token %}
+      <h1 class="login-title">Inicio de Sesión</h1>
+      <span>Por favor ingrese su nombre de usuario y contraseña:</span>
+      <div>
+        <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
+      </div>
+      <div>
+        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+      </div>
+      <div>
+        <a href="/reset_password/">¿Olvidaste tu contraseña?</a>
+      </div>
+      <div>
+        <button class="btn-login" type="submit" name="login_submit">Iniciar sesión</button>
+      </div>
+      <div>
+      <a href="{% provider_login_url 'google' %}" class="btn-google">
+        <img src="{% static 'image/logo-google.png' %}">
+        <span>Cuenta de Google</span>
+      </a>
+      </div>
+    </form>
+  </div>
+  <div class="toggle-container">
+    <div class="toggle">
+      <div class="toggle-panel toggle-left">
+        <h1 class="header">¿YA TIENES UNA CUENTA?</h1>
+        <p>Ingresa con tus datos para acceder a tu perfil y gestionar tus entrenamientos.</p>
+        <button class="btn btn-outline-light hidden" id="login">Iniciar Sesión</button>
+      </div>
+      <div class="toggle-panel toggle-right">
+        <h1 class="header">CREA TU CUENTA</h1>
+        <p>Regístrate para agendar tu primer entrenamiento personalizado.</p>
+        <button class="btn btn-outline-light hidden" id="register">Registrarse</button>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

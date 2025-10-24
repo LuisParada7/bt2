@@ -1,0 +1,68 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡RESERVA CONFIRMADA!</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #ff001e;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>¡Reserva Confirmada!</h1>
+        </div>
+        <div class="content">
+            <h3>Hola, {{ user.first_name }}</h3>
+            <p>Gracias por confiar en nosotros, su sesión de entrenamiento personalizado ha sido agendada con éxito. ¡Estamos emocionados de verte!</p>
+
+            <h4>Detalles de tu reserva:</h4>
+            <ul>
+                <li><strong>Fecha:</strong> {{ reserva.date|date:"d/m/Y" }}</li>
+                <li><strong>Hora:</strong> {{ reserva.time|time:"h:i A" }}</li>
+                <li><strong>Tipo:</strong> {{ reserva.training_type.name|default:"No especificado" }}</li>
+                <li><strong>Lugar:</strong> {{ reserva.location }}</li>
+            </ul>
+
+            <p>Si necesitas hacer algún cambio, puedes gestionar tus citas desde nuestra página.</p>
+
+            <p>¡Nos vemos pronto!</p>
+        </div>
+        <div class="footer">
+            &copy; 2025 Bt | Belalcazar Trainer. Todos los derechos reservados.
+        </div>
+    </div>
+</body>
+</html>ccc ccccccc

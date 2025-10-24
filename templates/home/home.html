@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Página Principal
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home/home.css' %}">
+{% endblock %}
+
+{% block enlace_logo %}
+<a href=''>
+{% endblock %}
+
+{% block enlace_logo_mobile %}
+<a href=''>
+{% endblock %}
+
+  {% block extra_navbar %}
+  <a href="/logout/" class="btn btn-outline-light logout-btn"><svg
+      xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right"
+      viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+      <path fill-rule="evenodd"
+        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+    </svg><span class="logout-text"> Cerrar Sesión</span></a>
+  {% endblock %}
+
+  {% block content %}
+  <picture class="background-container">
+    <source srcset="{% static 'image/background_mobile_4.png' %}" media="(width < 565px)" class="background_home_mobile">
+    <img src="{% static 'image/background_home3.png' %}" class="background_home">
+  </picture>
+
+  <div class="home-container">
+    <div class="reserve-container">
+      <span class="header">¡Bienvenido, {{ user.first_name }} {{ user.last_name }}!</span>
+      <span class="highlight-red">
+        ENTRENAMIENTOS PERSONALIZADOS
+      </span>
+      <h6>Estás a un paso de superar tus límites y transformar tu esfuerzo en resultados. Cada sesión es una oportunidad
+        para acercarte a tus metas. Agenda tu próximo entrenamiento y continúa construyendo la mejor versión de ti
+        mismo.</h6>
+      <a href="/reserve/" class="btn-reservar">
+        RESERVAR YA
+        <div class="logo-container">
+          <img src="{% static 'image/minilogoblanco.png' %}" class="logo">
+          <img src="{% static 'image/logo2rojo.png' %}" class="logo-hover">
+        </div>
+      </a>
+    </div>
+    <div class="bottom-row">
+      <div class="video-container">
+        <video controls autoplay muted loop>
+          <source src="{% static 'videos/video_logo_home.mp4' %}" type="video/mp4">
+        </video>
+      </div>
+      <div class="view_reservation-container">
+        <span class="header2">¡CONSULTA AQUÍ TUS RESERVAS!</span>
+        <span class="highlight-black">CONTROL TOTAL DE TUS SESIONES</span>
+        <h6> Aquí tienes el control total para gestionar tu camino hacia el éxito. Visualiza y planifica tu semana revisando las fechas y horas de tus próximos entrenamientos. Sabemos que la vida es dinámica, por eso te damos la flexibilidad de modificar tus citas para que se ajusten a tus necesidades si surge un imprevisto. Y si necesitas tomarte un descanso, puedes cancelar una sesión de forma sencilla y sin complicaciones. Todo lo que necesitas para administrar tu agenda de entrenamiento está aquí, porque el control está en tus manos.</h6>
+        <a href="/view_reservations/" class="btn-view_reservation">
+          VER ENTRENAMIENTOS
+          <div class="logo-container2">
+            <img src="{% static 'image/logo2rojo.png' %}" class="logo">
+            <img src="{% static 'image/minilogoblanco.png' %}" class="logo-hover">
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

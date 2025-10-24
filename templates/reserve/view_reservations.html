@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Mis Reservas
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/reserve/view_reservations.css'%}">
+{% endblock %}
+
+{% block enlace_logo %}
+<a href='/home/'>
+{% endblock %}
+
+{% block enlace_logo_mobile %}
+<a href='/home/'>
+{% endblock %}
+
+{% block extra_navbar %}
+<a href="/logout/" class="btn btn-outline-light logout-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+  </svg><span class="logout-text"> Cerrar Sesión</span></a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if reservas %}
+    <span class="header">MIS RESERVAS DE ENTRENAMIENTO </span>
+        <div class="reservas-grid">
+            {% for reserva in reservas %}
+                <div class="reserva-card">
+                    <div class="reserva-image-container">
+                        {% if reserva.training_type and reserva.training_type.image %}
+                                <img src="{{ reserva.training_type.image.url }}" alt="{{ reserva.training_type.name }}" class="training-type-image">
+                        {% endif %}
+                    </div>
+                    <p><strong>Fecha:</strong> {{ reserva.date|date:"d/m/Y" }}</p>
+                    <p><strong>Hora:</strong> {{ reserva.time|time:"h:i A" }}</p>
+                    <p><strong>Lugar:</strong> {{ reserva.location }}</p>
+                    <p>
+                        <strong><span class="card-text">Tipo de </span>Entreno:</strong>
+                        {% if reserva.training_type %}
+                            {{ reserva.training_type.name }}
+                        {% else %}
+                          Sin especificar
+                        {% endif %}
+                    </p>
+                    <div class="button-container">
+                        <button type="button" class="custom-btn" data-reservation-id="{{ reserva.id }}">Opciones</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+    <span class="header2">MIS RESERVAS DE ENTRENAMIENTO </span>
+        <div class="no-reservations">
+            <img src="{% static 'image/balon-m.png' %}" class="balon-m">
+            <img src="{% static 'image/pesa.png' %}" class="pesa">
+            <img src="{% static 'image/golty.png' %}" class="golty">
+            <img src="{% static 'image/basquet.png' %}" class="basquet">
+            <div class="no-reservations-content">
+                <p class="header-no-reservations">No tienes ninguna reserva de entrenamiento en este momento.</p>
+                <a href="/reserve/" class="btn-reserve">¡Haz una reserva ahora!</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="modal-overlay" id="options-modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h3>Opciones de Reserva</h3>
+        <a href="#" id="edit-link" class="modal-button edit">Modificar Reserva</a>
+        <form action="#" method="POST" id="delete-form">
+            {% csrf_token %}
+            <button type="submit" class="modal-button delete">Eliminar Reserva</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/view_reservations.js' %}"></script>
+{% endblock %}

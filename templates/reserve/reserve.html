@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Reservar Entrenamiento
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/reserve/reserve.css'%}">
+{% endblock %}
+
+{% block enlace_logo %}
+<a href='/home/'>
+{% endblock %}
+
+{% block enlace_logo_mobile %}
+<a href='/home/'>
+{% endblock %}
+
+
+  {% block extra_navbar %}
+  <a href="/logout/" class="btn btn-outline-light logout-btn"><svg xmlns="http://www.w3.org/2000/svg"
+      width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+      <path fill-rule="evenodd"
+        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+    </svg><span class="logout-text"> Cerrar Sesión</span></a>
+  {% endblock %}
+
+  {% block content %}
+  <div class="container">
+    <img src="{% static 'image/unsplash2.jpg' %}" class="unsplash">
+    <img src="{% static 'image/pesa.png' %}" class="pesa">
+    <img src="{% static 'image/balon-m.png' %}" class="balon-m">
+    <div class="form-content">
+        <h3 class="form-title">RESERVA TU ENTRENAMIENTO</h3>
+
+        <form method="GET" action="{% url 'reserve' %}" id="date-selection-form">
+        <div class="form-group">
+            <label for="id_date">Selecciona la fecha:</label>
+            <input type="date" name="date" required id="id_date" value="{{ selected_date }}">
+        </div>
+    </form>
+
+    <hr class="linea">
+
+    <form method="POST" class="reserve-form">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ selected_date }}">
+
+        <div class="form-group">
+            <label for="id_time">Elige una hora disponible:</label>
+            {{ form.time }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_location">Dirección del entrenamiento:</label>
+            {{ form.location }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_phone">Celular del cliente:</label>
+            {{ form.phone }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_training_type">Tipo de entrenamiento:</label>
+            {{ form.training_type }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_notes">Comentarios adicionales:</label>
+            {{ form.notes }}
+        </div>
+
+        <div class="form-group">
+            <button type="submit">¡RESERVAR YA!</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('id_date');
+        if (dateInput) {
+            dateInput.addEventListener('change', function() {
+                document.getElementById('date-selection-form').submit();
+            });
+        }
+    });
+</script>
+  {% endblock %}
+

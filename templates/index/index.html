@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Belalcazar Trainer
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index/index.css' %}">
+{% endblock %}
+
+{% block enlace_logo %}
+<a href='/'>
+{% endblock %}
+
+{% block enlace_logo_mobile %}
+<a href='/'>
+{% endblock %}
+
+{% block extra_navbar %}
+<a href="auth" class="btn btn-outline-light empezar-btn">Empezar Ahora</a>
+{% endblock %}
+
+{% block content %}
+<div class="index-container">
+
+    <div class="text-container">
+        <h1>¡Bienvenid@ a <span class="highlight-red">Belalcazar Trainer</span>!</h1>
+        <br>
+        <h4>Aquí, tu transformación personal es nuestra única prioridad. Olvídate de las rutinas genéricas; diseñamos un plan de entrenamiento exclusivo para ti, enfocado en tus metas, ya sea ganar fuerza,
+            resistencia o energía. Nuestro método garantiza resultados reales y sostenibles que se adaptan a tu progreso y estilo de vida. Porque invertir en tu salud es el primer paso hacia el éxito en todas las áreas de tu vida. Da el primer paso hoy y construyamos juntos la mejor y más fuerte versión de ti mismo.</h4>
+        <br>
+        <div class="button-container">
+        <a href="/auth/" class="custom-btn">Regístrate aquí</a>
+        </div>
+    </div>
+
+    <div class="bt-imagenes">
+    <img src="{% static 'image/bt-logo-index.png' %}" class="logo">
+
+    <div class="overlay-images">
+        <img src="{% static 'image/balon-m.png' %}" class="balon-m">
+        <img src="{% static 'image/pesa.png' %}" class="pesa">
+        <img src="{% static 'image/jabalina.png' %}" class="jabalina">
+        <img src="{% static 'image/golty.png' %}" class="golty">
+        <img src="{% static 'image/basquet.png' %}" class="basquet">
+    </div>
+</div>
+</div>
+{% endblock %}

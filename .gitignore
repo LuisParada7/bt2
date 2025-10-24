@@ -1,0 +1,10 @@
+# Entorno virtual
+venv/
+*.pyc
+
+# Archivos de Django y SO
+__pycache__/
+.DS_Store
+
+# Archivos de base de datos
+db.sqlite3

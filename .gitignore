@@ -9,3 +9,7 @@ __pycache__/
 # Archivos de base de datos
 db.sqlite3
 .env
+
+# Archivos Google OAUTH
+token.json
+client_secret_app_escritorio_oauth.json

@@ -188,6 +188,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'auth'
+
 LOGOUT_REDIRECT_URL = '/'
 
 #AWS CONFIGURATION

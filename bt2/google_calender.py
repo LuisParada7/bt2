@@ -67,13 +67,20 @@ class GoogleCalendarManager:
 
         return build("calendar", "v3", credentials=creds)
 
-    def get_available_slots(self, date, duration_minutes=60):
+    def get_available_slots(self, date, duration_minutes=60, buffer_minutes=60):
         """
         Usa la lista de eventos para encontrar y devolver los horarios disponibles.
+        Filtra horarios pasados y añade un buffer de X minutos después de cada evento.
         """
         # Define el rango de trabajo para el día.
         start_of_day = timezone.make_aware(dt.datetime.combine(date, dt.time(8, 0)))
         end_of_day = timezone.make_aware(dt.datetime.combine(date, dt.time(20, 0)))
+
+        # Obtener la hora actual con zona horaria
+        now = timezone.localtime()
+
+        # --- NUEVO: Definir el buffer ---
+        buffer_delta = dt.timedelta(minutes=buffer_minutes)
 
         try:
             events_result = self.service.events().list(
@@ -92,6 +99,11 @@ class GoogleCalendarManager:
         current_time = start_of_day
 
         while current_time < end_of_day:
+            # Validación tiempo pasado
+            if current_time < now:
+                current_time += dt.timedelta(minutes=duration_minutes)
+                continue
+
             is_available = True
             slot_end_time = current_time + dt.timedelta(minutes=duration_minutes)
 
@@ -102,8 +114,10 @@ class GoogleCalendarManager:
                 event_start = dt.datetime.fromisoformat(event['start']['dateTime'])
                 event_end = dt.datetime.fromisoformat(event['end']['dateTime'])
 
-                # Si el horario choca con un evento ocupado, no está disponible.
-                if max(current_time, event_start) < min(slot_end_time, event_end):
+                # Esto trata el evento como si durara 1 hora más
+                event_end_with_buffer = event_end + buffer_delta
+
+                if max(current_time, event_start) < min(slot_end_time, event_end_with_buffer):
                     is_available = False
                     break
 
